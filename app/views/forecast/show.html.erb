@@ -1,0 +1,54 @@
+<turbo-frame id="forecast_results">
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <div class="text-center mb-4">
+        <h1 class="display-5" data-testid="location-name"><%= @forecast_data[:location][:name] %>, <%= @forecast_data[:location][:country] %></h1>
+        <p class="text-muted">
+          <%= @forecast_data[:location][:region] %>
+        </p>
+        <p class="text-muted small">
+          <i class="text-info">Last updated <%= @forecast_data[:cache_age_minutes] %> minute<%= @forecast_data[:cache_age_minutes] == 1 ? '' : 's' %> ago</i>
+        </p>
+      </div>
+      
+      <div class="row align-items-center justify-content-center bg-light rounded p-4 mb-4">
+        <div class="col-auto">
+          <div class="display-1 fw-light" data-testid="current-temperature">
+            <%= @forecast_data[:current][:temperature][:celsius].round %>°C
+          </div>
+        </div>
+        
+        <div class="col-auto">
+          <p class="text-muted mb-3" data-testid="feels-like">Feels like <%= @forecast_data[:current][:temperature][:feels_like_c].round %>°C</p>
+        </div>
+      </div>
+      
+      <div class="mb-4">
+        <h2 class="h3 mb-3">3-Day Forecast</h2>
+        <div class="row g-3">
+          <% @forecast_data[:forecast].each do |day| %>
+            <div class="col-md-4">
+              <div class="card bg-light" data-testid="forecast-day">
+                <div class="card-body text-center">
+                  <h5 class="card-title"><%= Date.parse(day[:date]).strftime("%A") %></h5>
+                  <p class="text-muted small" data-testid="forecast-date"><%= Date.parse(day[:date]).strftime("%b %d") %></p>
+                  <div class="fs-4 mb-2">
+                    <span class="text-danger" data-testid="forecast-high"><%= day[:day][:max_temp_c].round %>°</span>
+                    <span class="text-primary" data-testid="forecast-low"><%= day[:day][:min_temp_c].round %>°</span>
+                  </div>
+                  <p class="small text-muted mb-0" data-testid="forecast-rain-chance">
+                    <% if day[:day][:chance_of_snow] > day[:day][:chance_of_rain] %>
+                      ❄️ <%= day[:day][:chance_of_snow] %>% snow
+                    <% else %>
+                      🌧️ <%= day[:day][:chance_of_rain] %>% rain
+                    <% end %>
+                  </p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</turbo-frame>
