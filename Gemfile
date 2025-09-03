@@ -9,6 +9,7 @@ gem "turbo-rails", "~> 2.0"
 
 gem "faraday", "~> 2.13"
 gem "dotenv-rails", "~> 3.1"
+gem "redis", "~> 5.0"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 gem "bootsnap", "~> 1.18", require: false
